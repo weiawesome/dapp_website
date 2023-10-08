@@ -1,0 +1,33 @@
+.MainFrame{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    padding: 1rem;
+    align-items: center;
+}
+.Title{
+    text-align: center;
+    flex: 1;
+}
+.Content{
+    flex:4;
+}
+.ConnectMethod{
+    border: black solid;
+    padding: 1rem;
+    margin: 0.3rem;
+}
+
+.ConnectBtn{
+    background-color: rgba(20,200,50,0.3);
+    border-radius: 1rem;
+    box-shadow: 0.1rem 0rem 0.1rem 0.1rem;
+    border: none;
+    padding: 0.3rem;
+}
+.ConnectAddr{
+    word-break: break-all;
+}
+.ConnectAmount{
+    word-break: break-all;
+}
