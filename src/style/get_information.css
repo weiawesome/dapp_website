@@ -9,13 +9,22 @@
     text-align: center;
     flex: 1;
 }
+.InfoContent{
+    flex: 4;
+    border: black solid;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0.3rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.3rem;
+}
 .Content{
     display: flex;
     flex-direction: row;
-    flex:4;
 }
 .ConnectMethod{
-    flex:1;
     border: black solid;
     padding: 1rem;
     margin: 0.3rem;
@@ -27,9 +36,9 @@
     box-shadow: 0.1rem 0rem 0.1rem 0.1rem;
     border: none;
     padding: 0.3rem;
-    word-break: keep-all;
 }
-.ConnectAddr{
+.ConnectItem{
+    word-break: break-all;
 }
 .ConnectAmount{
     word-break: break-all;
