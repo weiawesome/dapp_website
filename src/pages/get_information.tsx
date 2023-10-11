@@ -1,7 +1,7 @@
 'use client';
 import {ethers, formatEther, parseEther} from 'ethers';
 import Web3 from 'web3';
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import "../style/get_information.css";
 
 class BlockInfo{
@@ -32,7 +32,6 @@ export default function Get_information() {
     const [transactionEthers,setTransactionEthers]=useState(new TransactionInfo());
 
     const getBlockHeightWeb3=()=>{
-        setLastBlockNumberEthers(0);
         const url=urlRef.current?.value.toString()
         const web3 = new Web3(url);
         web3.eth.getBlockNumber()
@@ -52,7 +51,7 @@ export default function Get_information() {
             if (blockInfo) {
                 let tmp=new BlockInfo();
                 tmp.BlockHeight=Number(blockInfo.number);
-                tmp.BlockHash=blockInfo.hash;
+                tmp.BlockHash=blockInfo.hash!;
                 tmp.PreviousHash=blockInfo.parentHash;
                 setBlockByHeightWeb3(tmp);
                 console.log('區塊資訊：', blockInfo);
@@ -93,9 +92,9 @@ export default function Get_information() {
                     console.log('交易資訊：', transactionInfo);
                     let tmp=new TransactionInfo();
                     tmp.From=transactionInfo.from;
-                    tmp.To=transactionInfo.to;
+                    tmp.To=transactionInfo.to!;
                     tmp.Amount=formatEther(transactionInfo.value);
-                    tmp.Fee=formatEther(transactionInfo.maxFeePerGas+transactionInfo.maxPriorityFeePerGas);
+                    tmp.Fee=formatEther(transactionInfo.gasPrice);
                     tmp.BlockHeight=Number(transactionInfo.blockNumber);
                     tmp.Hash=transactionInfo.hash;
                     setTransactionWeb3(tmp);
@@ -166,7 +165,7 @@ export default function Get_information() {
                 tmp.From=transactionInfo.from;
                 tmp.To=transactionInfo.to;
                 tmp.Amount=formatEther(transactionInfo.value);
-                tmp.Fee=formatEther(transactionInfo.maxFeePerGas+transactionInfo.maxPriorityFeePerGas);
+                tmp.Fee=formatEther(transactionInfo.gasPrice);
                 tmp.BlockHeight=transactionInfo.blockNumber;
                 tmp.Hash=transactionInfo.hash;
                 setTransactionEthers(tmp);
