@@ -1,141 +1,122 @@
 'use client';
-import {ethers, formatEther, parseEther} from 'ethers';
+import {ethers, parseEther} from 'ethers';
 import Web3 from 'web3';
-import {useEffect, useState} from "react";
-import "../style/connect_wallet.css"
+import {useRef, useState} from "react";
+import "../style/build_transaction.css"
+
+class Receipt{
+    TransactionHash:string;
+    From:string;
+    To:string | null;
+    BlockHash:string;
+    BlockHeight:number| null
+}
 export default function Build_transaction() {
-    const [web3,setWeb3]=useState(null);
-    const [web3Address,setWeb3Address]=useState("");
-    const [web3Amount,setWeb3Amount]=useState("");
-    const [provider,setProvider]=useState(null);
-    const [ethersAddress,setEthersAddress]=useState("");
-    const [ethersAmount,setEthersAmount]=useState("");
-
-    useEffect(()=>{
-        if (typeof window.ethereum !== 'undefined') {
-            setWeb3(new Web3(window.ethereum));
-            setProvider(new ethers.BrowserProvider(window.ethereum));
-        }
-    },[])
-
-    const initWeb3=async () => {
-        if (typeof window.ethereum !== 'undefined') {
-            setWeb3Address("");
-            setWeb3Amount("");
-            await setWeb3(new Web3(window.ethereum));
-            try {
-                const accounts=await window.ethereum.request({method: 'eth_requestAccounts'});
-                const account = accounts[0];
-                const balanceWei = await web3.eth.getBalance(account);
-                const balanceEther = web3.utils.fromWei(balanceWei, 'ether');
-                setWeb3Amount(balanceEther);
-                setWeb3Address(accounts);
-                console.log('已連接到 MetaMask');
-            } catch (error) {
-                console.error('連接到 MetaMask 時出現錯誤：', error);
-            }
-        } else {
-            console.log('請安裝 MetaMask 錢包並連接到網絡');
-        }
-
-    }
-    const initEthers=async ()=> {
-        if (typeof window.ethereum !== 'undefined') {
-            setEthersAddress("");
-            setEthersAmount("");
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            setProvider(new ethers.BrowserProvider(window.ethereum));
-            const signer = await provider.getSigner();
-            const addr= await signer.getAddress();
-            const balance = await provider.getBalance(addr);
-            setEthersAmount(formatEther(balance));
-            setEthersAddress(addr);
-
-        } else {
-            console.log('請安裝 MetaMask 錢包並連接到網絡');
-        }
-    }
-
-    const test=async () => {
+    const [r,setR]=useState(new Receipt());
+    const addrRef=useRef<HTMLInputElement|null>(null);
+    const valueRef=useRef<HTMLInputElement|null>(null);
+    const BuildTransactionEthers=async () => {
         try {
-            // 檢查 MetaMask 是否已安裝並連接
             if (!window.ethereum || !window.ethereum.isConnected()) {
                 throw new Error('請安裝 MetaMask 並連接到一個 Ethereum 網路');
             }
 
-            // 使用 MetaMask 的 provider 建立一個新的 ethers provider
             let provider = new ethers.BrowserProvider(window["ethereum"]);
 
-            // 取得已連接帳戶的 signer 物件
             const signer =await provider.getSigner();
 
             const tx = {
-                to: '0x9FCfd3437f0a96A13D1Ef89bdd08b98034644b4b', // 替換成你想要發送到的地址
-                value: parseEther('10'),
+                to: addrRef.current!.value,
+                value: parseEther(valueRef.current!.value),
             };
 
-            // 發送交易
             const transactionResponse = await signer.sendTransaction(tx);
 
-            console.log('交易已發送，等待確認...');
             console.log(transactionResponse);
 
-            // 等待交易被確認
             const transactionReceipt = await transactionResponse.wait();
 
-            console.log('交易已確認');
+            let tmp=new Receipt();
+            tmp.BlockHeight=transactionReceipt!.blockNumber;
+            tmp.BlockHash=transactionReceipt!.blockHash;
+            tmp.TransactionHash=transactionReceipt!.hash;
+            tmp.From=transactionReceipt!.from;
+            tmp.To=transactionReceipt!.to;
+            setR(tmp);
             console.log(transactionReceipt);
+
         } catch (error) {
             console.error('提交交易時發生錯誤:', error);
         }
     }
-    const aa=async () => {
-        if (!window.ethereum || !window.ethereum.isConnected()) {
-            throw new Error('請安裝 MetaMask 並連接到一個 Ethereum 網路');
-        }
-        const provider = window.ethereum;
-        const web3 = new Web3(provider);
-        if (web3.eth.accounts.length === 0) {
-            console.log('MetaMask 錢包未解鎖。');
-            return;
-        }
-        const toAddress = '0x9FCfd3437f0a96A13D1Ef89bdd08b98034644b4b';
-        const amountToSend = web3.utils.toWei('10', 'ether'); // 要轉送的以太數量
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const account = accounts[0];
-        console.log(amountToSend);
-        const transactionObject = {
-            from: account.toString(),
-            to: toAddress,
-            value: amountToSend,
-        };
+    const BuildTransactionWeb3=async () => {
+        try {
+            if (!window.ethereum || !window.ethereum.isConnected()) {
+                throw new Error('請安裝 MetaMask 並連接到一個 Ethereum 網路');
+            }
+            const provider = window.ethereum;
+            const web3 = new Web3(provider);
+            const toAddress = addrRef.current?.value;
 
-        web3.eth.sendTransaction(transactionObject)
-            .on('transactionHash', hash => {
-                console.log('交易哈希：', hash);
-            })
-            .on('receipt', receipt => {
-                console.log('交易收據：', receipt);
-            })
-            .on('error', error => {
-                console.error('發送交易時發生錯誤：', error);
-            })
+            const amountToSend = web3.utils.toWei(valueRef.current!.value, 'ether');
+            console.log(amountToSend);
+            const accounts = await window.ethereum.request({method: 'eth_requestAccounts'});
+            const account = accounts[0];
+            const transactionObject = {
+                from: account.toString(),
+                to: toAddress,
+                value: amountToSend,
+            };
 
+            web3.eth.sendTransaction(transactionObject)
+                .on('transactionHash', hash => {
+                    console.log('交易哈希：', hash);
+                })
+                .on('receipt', transactionReceipt => {
+                    console.log('交易收據：', transactionReceipt);
+                    let tmp = new Receipt();
+                    tmp.BlockHeight = Number(transactionReceipt!.blockNumber);
+                    tmp.BlockHash = transactionReceipt!.blockHash;
+                    tmp.TransactionHash = transactionReceipt!.transactionHash;
+                    tmp.From = transactionReceipt!.from;
+                    tmp.To = transactionReceipt!.to;
+                    setR(tmp);
+                })
+                .on('error', error => {
+                })
+        } catch (error) {
+            console.log(error);
+        }
     }
+
 
     return (
         <main className={"MainFrame"}>
-            <h1 className={"Title"}>DApp 核心功能 之 連接錢包帳戶(MetaMask)</h1>
+            <h1 className={"Title"}>DApp 核心功能 之 建立交易</h1>
+            <div>
+                <h2>
+                    交易地址:&nbsp;&nbsp;<input ref={addrRef} type={"text"}/>
+                </h2>
+                <h2>
+                    交易金額:&nbsp;&nbsp;<input ref={valueRef} type={"number"}/>
+                </h2>
+            </div>
             <div className={"Content"}>
-                <div className={"ConnectMethod"}>
-                    <button className={"ConnectBtn"} onClick={aa}>Connect to MetaMask <br/>by web3.js</button>
-                    <h2 className={"ConnectAddr"}>帳戶地址: {web3Address}</h2>
-                    <h2 className={"ConnectAmount"}>帳戶餘額: {web3Amount} ETH</h2>
+                <button className={"ConnectBtn"} onClick={BuildTransactionWeb3}>By web3.js</button>
+                <button className={"ConnectBtn"} onClick={BuildTransactionEthers}>By ethers.js</button>
+            </div>
+            <div className={"Result"}>
+                <h2 className={"Center-text"}>帳單明細</h2>
+                <h3 className={"Center-text"}>交易資訊</h3>
+                <div className={"Result-div"}>
+                    <h4>交易哈希:&nbsp;&nbsp;{r.TransactionHash}</h4>
+                    <h4>交易發起地址:&nbsp;&nbsp;{r.From}</h4>
+                    <h4>交易接收地址:&nbsp;&nbsp;{r.To}</h4>
                 </div>
-                <div className={"ConnectMethod"}>
-                    <button className={"ConnectBtn"} onClick={test}>Connect to MetaMask <br/>by ethers.js</button>
-                    <h2 className={"ConnectAddr"}>帳戶地址: {ethersAddress}</h2>
-                    <h2 className={"ConnectAmount"}>帳戶餘額: {ethersAmount} ETH</h2>
+                <h3 className={"Center-text"}>區塊資訊</h3>
+                <div className={"Result-div"}>
+                    <h4>區塊哈希:&nbsp;&nbsp;{r.BlockHash}</h4>
+                    <h4>區塊高度:&nbsp;&nbsp;{r.BlockHeight}</h4>
                 </div>
             </div>
         </main>

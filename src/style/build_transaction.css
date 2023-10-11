@@ -1,0 +1,55 @@
+.MainFrame{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    padding: 1rem;
+    align-items: center;
+}
+.Title{
+    text-align: center;
+    flex: 1;
+}
+.Content{
+    display: flex;
+    flex-direction: row;
+    flex:4;
+}
+.ConnectMethod{
+    flex:1;
+    border: black solid;
+    padding: 1rem;
+    margin: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.ConnectBtn{
+    margin:1rem;
+    background-color: rgba(20,200,50,0.3);
+    border-radius: 1rem;
+    box-shadow: 0.1rem 0rem 0.1rem 0.1rem;
+    border: none;
+    padding: 1rem;
+    word-break: keep-all;
+}
+.Result{
+    width: 60%;
+    border: black solid;
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+.Result-div{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.Center-text{
+    text-align: center;
+    margin: 0.3rem;
+}
+h4{
+    margin:0.2rem;
+    word-break: break-all;
+}
