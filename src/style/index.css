@@ -1,0 +1,35 @@
+.falling-text {
+    font-size: 36px;
+    text-align: center;
+    align-items: center;
+}
+
+.falling-text span {
+    display: inline-block;
+    opacity: 0;
+    animation: fall 1s forwards;
+    animation-delay: calc(0.5s * var(--i));
+}
+
+@keyframes fall {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.falling-text span:nth-child(1) {
+    --i: 1;
+}
+
+.falling-text span:nth-child(2) {
+    --i: 2;
+}
+
+.falling-text span:nth-child(3) {
+    --i: 3;
+}
