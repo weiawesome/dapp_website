@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.13",
     "@types/web3": "^1.2.2",
     "ethers": "^6.7.1",
-    "lockdown": "^0.0.8-dev",
+    "lockdown": "^0.0.5",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",

@@ -1,0 +1,80 @@
+.MainFrame{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    padding: 1rem;
+    align-items: center;
+}
+.Title{
+    text-align: center;
+    flex: 1;
+}
+.Content{
+    display: flex;
+    flex-direction: row;
+    flex:4;
+}
+.ActionFunction{
+    flex:2  ;
+    word-break: break-all;
+}
+.ConnectMethod{
+    word-break: break-all;
+    flex:1;
+    border: black solid;
+    padding: 1rem;
+    margin: 0.3rem;
+}
+
+.ConnectBtn{
+    font-weight: bold;
+    margin: 0.5rem;
+    font-size: medium;
+    background-color: rgba(20,200,50,0.3);
+    border-radius: 1rem;
+    box-shadow: 0.1rem 0rem 0.1rem 0.1rem;
+    border: none;
+    padding: 0.5rem;
+    word-break: keep-all;
+}
+.ActionSpace{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90%;
+    margin-bottom: 1rem;
+}
+.AddBlock{
+    width: 90%;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.AddBtn{
+    padding: 1rem;
+    border-radius: 1rem;
+    border: none;
+    background-color: burlywood;
+    font-weight: bold;
+}
+select{
+    width: 10rem;
+    margin: 0.5rem;
+    padding: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 1rem;
+}
+option{
+    text-align: left;
+    color: burlywood;
+    font-size: medium;
+    padding: 0.5rem;
+    font-weight: bold;
+}
+.ExecuteSpace{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
