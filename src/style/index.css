@@ -8,7 +8,7 @@
     display: inline-block;
     opacity: 0;
     animation: fall 1s forwards;
-    animation-delay: calc(0.5s * var(--i));
+    animation-delay: calc(0.3s * var(--i));
 }
 
 @keyframes fall {
@@ -19,6 +19,16 @@
     100% {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+@keyframes right {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
     }
 }
 
@@ -33,3 +43,54 @@
 .falling-text span:nth-child(3) {
     --i: 3;
 }
+.Blocks{
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    animation: right 1s forwards;
+    animation-delay: 1.3s;
+    opacity: 0;
+}
+.Block{
+    flex:2;
+    height: 15rem;
+    background-color: brown;
+    border-radius: 1rem;
+    padding: 0.5rem;
+
+}
+.Chain{
+    flex:1;
+    height: 0.1rem;
+    background-color: black;
+}
+.BlockTitle{
+    font-size: medium;
+    font-weight: bold;
+    height: 25%;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    align-items: center;
+}
+.BlockInfo{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: x-small;
+    border-radius: 1rem;
+    overflow-x: clip;
+    border: black 0.1rem solid;
+    height: 65%;
+    overflow-y: scroll;
+    word-break: break-all;
+    text-overflow: fade;
+    padding: 0.5rem;
+}
+
+.Block:hover{
+    scale: 1.1;
+    background-color: rgba(0,50,60,0.6);
+}
+
