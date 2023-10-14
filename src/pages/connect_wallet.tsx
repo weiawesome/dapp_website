@@ -1,12 +1,12 @@
 'use client';
-import {ethers, formatEther, parseEther} from 'ethers';
+import {ethers, formatEther} from 'ethers';
 import Web3 from 'web3';
 import {useEffect, useState} from "react";
 import "../app/globals.css"
 import "../style/connect_wallet.css"
-import {darkTheme} from "@/app/page";
 import {AppBar, Container, ThemeProvider, Toolbar} from "@mui/material";
 import Link from "next/link";
+import {createTheme} from "@mui/material/styles";
 export default function Connect_wallet() {
     const [web3,setWeb3]=useState(null);
     const [web3Address,setWeb3Address]=useState("");
@@ -14,6 +14,14 @@ export default function Connect_wallet() {
     const [provider,setProvider]=useState(null);
     const [ethersAddress,setEthersAddress]=useState("");
     const [ethersAmount,setEthersAmount]=useState("");
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+            primary: {
+                main: '#1976d2',
+            },
+        },
+    });
 
     useEffect(()=>{
         if (typeof window.ethereum !== 'undefined') {

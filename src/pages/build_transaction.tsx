@@ -6,9 +6,15 @@ import "../app/globals.css"
 import "../style/build_transaction.css"
 import {AppBar, Container, ThemeProvider, Toolbar} from "@mui/material";
 import Link from "next/link";
-import {darkTheme} from "@/app/page";
-
+import {createTheme} from "@mui/material/styles";
 class Receipt{
+    constructor() {
+        this.TransactionHash="";
+        this.From="";
+        this.To="";
+        this.BlockHash="";
+        this.BlockHeight=0;
+    }
     TransactionHash:string;
     From:string;
     To:string | null;
@@ -19,9 +25,17 @@ export default function Build_transaction() {
     const [r,setR]=useState(new Receipt());
     const addrRef=useRef<HTMLInputElement|null>(null);
     const valueRef=useRef<HTMLInputElement|null>(null);
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+            primary: {
+                main: '#1976d2',
+            },
+        },
+    });
     const BuildTransactionEthers=async () => {
         try {
-            if (!window.ethereum || !window.ethereum.isConnected()) {
+            if (typeof window.ethereum!=="undefined" || !window.ethereum.isConnected()) {
                 throw new Error('請安裝 MetaMask 並連接到一個 Ethereum 網路');
             }
 
@@ -55,7 +69,7 @@ export default function Build_transaction() {
     }
     const BuildTransactionWeb3=async () => {
         try {
-            if (!window.ethereum || !window.ethereum.isConnected()) {
+            if (typeof window.ethereum!=="undefined" || !window.ethereum.isConnected()) {
                 throw new Error('請安裝 MetaMask 並連接到一個 Ethereum 網路');
             }
             const provider = window.ethereum;

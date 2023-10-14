@@ -1,19 +1,32 @@
 'use client';
-import {ethers, formatEther, parseEther} from 'ethers';
+import {ethers, formatEther} from 'ethers';
 import Web3 from 'web3';
 import {useRef, useState} from "react";
 import "../app/globals.css"
 import "../style/get_information.css";
-import {darkTheme} from "@/app/page";
 import {AppBar, Container, ThemeProvider, Toolbar} from "@mui/material";
 import Link from "next/link";
+import {createTheme} from "@mui/material/styles";
 
 class BlockInfo{
+    constructor() {
+        this.BlockHeight=0;
+        this.BlockHash="";
+        this.PreviousHash="";
+    }
     BlockHeight:number
     BlockHash:string
     PreviousHash:string
 }
 class TransactionInfo{
+    constructor() {
+        this.BlockHeight=0;
+        this.From="";
+        this.To="";
+        this.Amount="";
+        this.Fee="";
+        this.Hash="";
+    }
     BlockHeight:number
     Hash:string
     From:string
@@ -35,6 +48,14 @@ export default function Get_information() {
     const [transactionWeb3,setTransactionWeb3]=useState(new TransactionInfo());
     const [transactionEthers,setTransactionEthers]=useState(new TransactionInfo());
 
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+            primary: {
+                main: '#1976d2',
+            },
+        },
+    });
     const getBlockHeightWeb3=()=>{
         const url=urlRef.current?.value.toString()===""?window.ethereum:urlRef.current?.value.toString();
         const web3 = new Web3(url);

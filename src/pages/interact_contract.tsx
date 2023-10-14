@@ -2,12 +2,10 @@
 import {useEffect, useRef, useState} from "react";
 import "../app/globals.css"
 import "../style/interact_contract.css"
-import {ethers, formatEther} from "ethers";
-import {text} from "stream/consumers";
-import Web3 from "web3";
-import {darkTheme} from "@/app/page";
+import {ethers} from "ethers";
 import {AppBar, Container, ThemeProvider, Toolbar} from "@mui/material";
 import Link from "next/link";
+import {createTheme} from "@mui/material/styles";
 
 class ContractMethod{
     Result:string;
@@ -26,6 +24,14 @@ export default function Interact_contract() {
     const [workers,setWorkers]=useState([new ContractMethod()]);
 
     const [abiContent, setAbiContent] = useState([{}]);
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+            primary: {
+                main: '#1976d2',
+            },
+        },
+    });
 
 
 
