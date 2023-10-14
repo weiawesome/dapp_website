@@ -2,7 +2,11 @@
 import {ethers, formatEther, parseEther} from 'ethers';
 import Web3 from 'web3';
 import {useEffect, useState} from "react";
+import "../app/globals.css"
 import "../style/connect_wallet.css"
+import {darkTheme} from "@/app/page";
+import {AppBar, Container, ThemeProvider, Toolbar} from "@mui/material";
+import Link from "next/link";
 export default function Connect_wallet() {
     const [web3,setWeb3]=useState(null);
     const [web3Address,setWeb3Address]=useState("");
@@ -57,20 +61,50 @@ export default function Connect_wallet() {
     }
 
     return (
-        <main className={"MainFrame"}>
-            <h1 className={"Title"}>DApp 核心功能 之 連接錢包帳戶(MetaMask)</h1>
-            <div className={"Content"}>
-                <div className={"ConnectMethod"}>
-                    <button className={"ConnectBtn"} onClick={initWeb3}>Connect to MetaMask <br/>by web3.js</button>
-                    <h2 className={"ConnectAddr"}>帳戶地址: {web3Address}</h2>
-                    <h2 className={"ConnectAmount"}>帳戶餘額: {web3Amount} ETH</h2>
-                </div>
-                <div className={"ConnectMethod"}>
-                    <button className={"ConnectBtn"} onClick={initEthers}>Connect to MetaMask <br/>by ethers.js</button>
-                    <h2 className={"ConnectAddr"}>帳戶地址: {ethersAddress}</h2>
-                    <h2 className={"ConnectAmount"}>帳戶餘額: {ethersAmount} ETH</h2>
-                </div>
-            </div>
-        </main>
+        <Container>
+            <ThemeProvider theme={darkTheme}>
+                <AppBar position="static">
+                    <Toolbar style={{display:"flex",justifyContent:"space-evenly"}}>
+                        <Link className={"RouterBtn"} href={"/"}>主頁</Link>
+                        <Link className={"RouterBtn"} href={"/connect_wallet"}>連結錢包</Link>
+                        <Link className={"RouterBtn"} href={"/get_information"}>區塊資訊</Link>
+                        <Link className={"RouterBtn"} href={"/build_transaction"}>建立交易</Link>
+                        <Link className={"RouterBtn"} href={"/interact_contract"}>合約互動</Link>
+                    </Toolbar>
+                </AppBar>
+                <main className={"MainFrame"}>
+                    <h1 className={"falling-text"}>
+                        <span>
+                            D
+                        </span>
+                        <span>
+                            App
+                        </span>
+                        <span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;核心功能&nbsp;&nbsp;
+                        </span>
+                        <span>
+                            之&nbsp;&nbsp;
+                        </span>
+                        <span>
+                            連接錢包帳戶(MetaMask)
+                        </span>
+                    </h1>
+                    <div className={"Content"}>
+                        <div className={"ConnectMethod"}>
+                            <button className={"ConnectBtn"} onClick={initWeb3}>Connect to MetaMask <br/>by web3.js</button>
+                            <h2 className={"ConnectContent"}>帳戶地址&nbsp;: {web3Address}</h2>
+                            <h2 className={"ConnectContent"}>帳戶餘額&nbsp;: {web3Amount} ETH</h2>
+                        </div>
+                        <div className={"ConnectMethod"}>
+                            <button className={"ConnectBtn"} onClick={initEthers}>Connect to MetaMask <br/>by ethers.js</button>
+                            <h2 className={"ConnectContent"}>帳戶地址&nbsp;: {ethersAddress}</h2>
+                            <h2 className={"ConnectContent"}>帳戶餘額&nbsp;: {ethersAmount} ETH</h2>
+                        </div>
+                    </div>
+                </main>
+            </ThemeProvider>
+        </Container>
+
     );
 }

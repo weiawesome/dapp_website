@@ -2,7 +2,11 @@
 import {ethers, parseEther} from 'ethers';
 import Web3 from 'web3';
 import {useRef, useState} from "react";
+import "../app/globals.css"
 import "../style/build_transaction.css"
+import {AppBar, Container, ThemeProvider, Toolbar} from "@mui/material";
+import Link from "next/link";
+import {darkTheme} from "@/app/page";
 
 class Receipt{
     TransactionHash:string;
@@ -91,34 +95,63 @@ export default function Build_transaction() {
 
 
     return (
-        <main className={"MainFrame"}>
-            <h1 className={"Title"}>DApp 核心功能 之 建立交易</h1>
-            <div>
-                <h2>
-                    交易地址:&nbsp;&nbsp;<input ref={addrRef} type={"text"}/>
-                </h2>
-                <h2>
-                    交易金額:&nbsp;&nbsp;<input ref={valueRef} type={"number"}/>
-                </h2>
-            </div>
-            <div className={"Content"}>
-                <button className={"ConnectBtn"} onClick={BuildTransactionWeb3}>By web3.js</button>
-                <button className={"ConnectBtn"} onClick={BuildTransactionEthers}>By ethers.js</button>
-            </div>
-            <div className={"Result"}>
-                <h2 className={"Center-text"}>帳單明細</h2>
-                <h3 className={"Center-text"}>交易資訊</h3>
-                <div className={"Result-div"}>
-                    <h4>交易哈希:&nbsp;&nbsp;{r.TransactionHash}</h4>
-                    <h4>交易發起地址:&nbsp;&nbsp;{r.From}</h4>
-                    <h4>交易接收地址:&nbsp;&nbsp;{r.To}</h4>
-                </div>
-                <h3 className={"Center-text"}>區塊資訊</h3>
-                <div className={"Result-div"}>
-                    <h4>區塊哈希:&nbsp;&nbsp;{r.BlockHash}</h4>
-                    <h4>區塊高度:&nbsp;&nbsp;{r.BlockHeight}</h4>
-                </div>
-            </div>
-        </main>
+        <Container>
+            <ThemeProvider theme={darkTheme}>
+                <AppBar position="static">
+                    <Toolbar style={{display:"flex",justifyContent:"space-evenly"}}>
+                        <Link className={"RouterBtn"} href={"/"}>主頁</Link>
+                        <Link className={"RouterBtn"} href={"/connect_wallet"}>連結錢包</Link>
+                        <Link className={"RouterBtn"} href={"/get_information"}>區塊資訊</Link>
+                        <Link className={"RouterBtn"} href={"/build_transaction"}>建立交易</Link>
+                        <Link className={"RouterBtn"} href={"/interact_contract"}>合約互動</Link>
+                    </Toolbar>
+                </AppBar>
+                <main className={"MainFrame"}>
+                    <h1 className={"falling-text"}>
+                        <span>
+                            D
+                        </span>
+                            <span>
+                            App
+                        </span>
+                        <span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;核心功能&nbsp;&nbsp;
+                        </span>
+                        <span>
+                            之&nbsp;&nbsp;
+                        </span>
+                        <span>
+                            建立交易
+                        </span>
+                    </h1>
+                    <div className={"TransactionInfo"}>
+                        <h2 className={"InfoDetails"}>
+                            交易地址&nbsp;:&nbsp;&nbsp;<input ref={addrRef} type={"text"}/>
+                        </h2>
+                        <h2 className={"InfoDetails"}>
+                            交易金額&nbsp;:&nbsp;&nbsp;<input ref={valueRef} type={"number"}/>
+                        </h2>
+                    </div>
+                    <div className={"Content"}>
+                        <button className={"ConnectBtn"} onClick={BuildTransactionWeb3}>By web3.js</button>
+                        <button className={"ConnectBtn"} onClick={BuildTransactionEthers}>By ethers.js</button>
+                    </div>
+                    <div className={"Result"}>
+                        <h2 className={"Center-text"}>帳單明細</h2>
+                        <h3 className={"Center-text"}>交易資訊</h3>
+                        <div className={"Result-div"}>
+                            <h4>交易哈希:&nbsp;&nbsp;{r.TransactionHash}</h4>
+                            <h4>交易發起地址:&nbsp;&nbsp;{r.From}</h4>
+                            <h4>交易接收地址:&nbsp;&nbsp;{r.To}</h4>
+                        </div>
+                        <h3 className={"Center-text"}>區塊資訊</h3>
+                        <div className={"Result-div"}>
+                            <h4>區塊哈希:&nbsp;&nbsp;{r.BlockHash}</h4>
+                            <h4>區塊高度:&nbsp;&nbsp;{r.BlockHeight}</h4>
+                        </div>
+                    </div>
+                </main>
+            </ThemeProvider>
+        </Container>
     );
 }

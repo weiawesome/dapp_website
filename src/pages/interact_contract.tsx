@@ -1,9 +1,13 @@
 'use client';
 import {useEffect, useRef, useState} from "react";
+import "../app/globals.css"
 import "../style/interact_contract.css"
 import {ethers, formatEther} from "ethers";
 import {text} from "stream/consumers";
 import Web3 from "web3";
+import {darkTheme} from "@/app/page";
+import {AppBar, Container, ThemeProvider, Toolbar} from "@mui/material";
+import Link from "next/link";
 
 class ContractMethod{
     Result:string;
@@ -133,66 +137,95 @@ export default function Interact_contract() {
     }
 
     return (
-        <main className={"MainFrame"}>
-            <h1 className={"Title"}>DApp 核心功能 之 與智能合約的互動</h1>
-            <div>
-                <h2>智能合約地址:&nbsp;&nbsp;<input ref={addressRef} type={"text"}/></h2>
-                <h2>智能合約ABI文檔(.json):&nbsp;&nbsp;<input ref={abiRef} type={"file"} accept=".json"/></h2>
-            </div>
-            <h2>相關互動函式</h2>
-            {workers.map((item,index)=>{
-                return(
-                    <div key={index} className={"ActionSpace"}>
-                        <div className={"ActionFunction"}>
-                            <h3>函式 與 監聽事件</h3>
-                            <h4>種類:
-                                <select onChange={(e)=>{handleTypeChange(index,e)}} value={workers[index].Type}>
-                                    <option value={""}>None</option>
-                                    <option value={"function"}>Function</option>
-                                    <option value={"event"}>Event</option>
-                                </select>
-                            </h4>
-                            <h4>選擇:
-                                <select onChange={(e)=>{handleMethodChange(index,e)}} value={workers[index].Method}>
-                                    <option value={""}>None</option>
-                                    {abiContent.map((abiItem,abiIndex)=>{
-                                        if (abiItem["name"]!==undefined && abiItem["type"]===workers[index].Type){
-                                            return (
-                                                <option key={abiIndex} value={abiItem["name"]}>{abiItem["name"]}</option>
-                                            );
-                                        }
-                                    })}
-                                </select>
-                            </h4>
-                            <h3>參數</h3>
-                            {abiContent[item.Index] && abiContent[item.Index]["inputs"].map((inputItem,inputIndex)=>{
-                                return (
-                                    <h4 key={inputIndex}>{inputItem["name"]}:&nbsp;&nbsp;<input
-                                        value={item.Parameters[inputIndex]}
-                                        onChange={(e) => parametersChange(index,inputIndex, e.target.value)}
-                                        type={"text"}/></h4>
-                                )
-                            })}
-                            <h3>金額</h3>
-                            {item.Payable===true && (
-                                <h4>
-                                    總共&nbsp;&nbsp;<input onChange={(e)=>{editAmount(index,e)}} type={"number"}/>&nbsp;&nbsp;ETH
+        <Container>
+            <ThemeProvider theme={darkTheme}>
+                <AppBar position="static">
+                    <Toolbar style={{display:"flex",justifyContent:"space-evenly"}}>
+                        <Link className={"RouterBtn"} href={"/"}>主頁</Link>
+                        <Link className={"RouterBtn"} href={"/connect_wallet"}>連結錢包</Link>
+                        <Link className={"RouterBtn"} href={"/get_information"}>區塊資訊</Link>
+                        <Link className={"RouterBtn"} href={"/build_transaction"}>建立交易</Link>
+                        <Link className={"RouterBtn"} href={"/interact_contract"}>合約互動</Link>
+                    </Toolbar>
+                </AppBar>
+            </ThemeProvider>
+            <main className={"MainFrame"}>
+                <h1 className={"falling-text"}>
+                        <span>
+                            D
+                        </span>
+                    <span>
+                            App
+                        </span>
+                    <span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;核心功能&nbsp;&nbsp;
+                        </span>
+                    <span>
+                            之&nbsp;&nbsp;
+                        </span>
+                    <span>
+                            與智能合約的互動
+                        </span>
+                </h1>
+                <div className={"ContractInfo"}>
+                    <h2 className={"ContractDetails"}>智能合約地址&nbsp;:&nbsp;&nbsp;<input ref={addressRef} type={"text"}/></h2>
+                    <h2 className={"ContractDetails"}>智能合約ABI文檔(.json)&nbsp;:&nbsp;&nbsp;<input ref={abiRef} type={"file"} accept=".json"/></h2>
+                </div>
+                <h2>相關互動函式</h2>
+                {workers.map((item,index)=>{
+                    return(
+                        <div key={index} className={"ActionSpace"}>
+                            <div className={"ActionFunction"}>
+                                <h3>函式 與 監聽事件</h3>
+                                <h4>種類:
+                                    <select onChange={(e)=>{handleTypeChange(index,e)}} value={workers[index].Type}>
+                                        <option value={""}>None</option>
+                                        <option value={"function"}>Function</option>
+                                        <option value={"event"}>Event</option>
+                                    </select>
                                 </h4>
-                            )}
-                            <div className={"ExecuteSpace"}>
-                                <button className={"ConnectBtn"} onClick={async () => {await ContractInteraction(index);}}>執行合約</button>
+                                <h4>選擇:
+                                    <select onChange={(e)=>{handleMethodChange(index,e)}} value={workers[index].Method}>
+                                        <option value={""}>None</option>
+                                        {abiContent.map((abiItem,abiIndex)=>{
+                                            if (abiItem["name"]!==undefined && abiItem["type"]===workers[index].Type){
+                                                return (
+                                                    <option key={abiIndex} value={abiItem["name"]}>{abiItem["name"]}</option>
+                                                );
+                                            }
+                                        })}
+                                    </select>
+                                </h4>
+                                <h3>參數</h3>
+                                {abiContent[item.Index] && abiContent[item.Index]["inputs"].map((inputItem,inputIndex)=>{
+                                    return (
+                                        <h4 key={inputIndex}>{inputItem["name"]}:&nbsp;&nbsp;<input
+                                            value={item.Parameters[inputIndex]}
+                                            onChange={(e) => parametersChange(index,inputIndex, e.target.value)}
+                                            type={"text"}/></h4>
+                                    )
+                                })}
+                                <h3>金額</h3>
+                                {item.Payable===true && (
+                                    <h4>
+                                        總共&nbsp;&nbsp;<input onChange={(e)=>{editAmount(index,e)}} type={"number"}/>&nbsp;&nbsp;ETH
+                                    </h4>
+                                )}
+                                <div className={"ExecuteSpace"}>
+                                    <button className={"ConnectBtn"} onClick={async () => {await ContractInteraction(index);}}>執行合約</button>
+                                </div>
                             </div>
-                        </div>
-                        <div className={"ConnectMethod"}>
-                            <h3>Result:</h3>
-                            <p>{item.Result}</p>
-                        </div>
-                    </div>) ;
-            })}
-            <div className={"AddBlock"}>
-                <button className={"AddBtn"} onClick={addActionBlock}>新增執行方塊</button>
-            </div>
+                            <div className={"ConnectMethod"}>
+                                <h3>Result:</h3>
+                                <p>{item.Result}</p>
+                            </div>
+                        </div>) ;
+                })}
+                <div className={"AddBlock"}>
+                    <button className={"AddBtn"} onClick={addActionBlock}>新增執行方塊</button>
+                </div>
 
-        </main>
+            </main>
+        </Container>
     );
 }

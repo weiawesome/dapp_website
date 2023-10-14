@@ -15,22 +15,24 @@
     flex:4;
 }
 .ConnectMethod{
+    margin: 1.5rem;
     flex:1;
     border: black solid;
     padding: 1rem;
-    margin: 0.3rem;
+    border-radius: 1rem;
 }
 
 .ConnectBtn{
+    font-weight: bold;
     background-color: rgba(20,200,50,0.3);
     border-radius: 1rem;
     box-shadow: 0.1rem 0rem 0.1rem 0.1rem;
     border: none;
-    padding: 0.3rem;
+    padding: 1rem;
+    margin: 1rem;
     word-break: keep-all;
 }
-.ConnectAddr{
-}
-.ConnectAmount{
+.ConnectContent{
+    font-weight: bold;
     word-break: break-all;
 }

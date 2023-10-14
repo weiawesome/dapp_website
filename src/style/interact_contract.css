@@ -1,4 +1,5 @@
 .MainFrame{
+    font-weight: bold;
     display: flex;
     flex-direction: column;
     align-content: center;
@@ -24,8 +25,11 @@
     border: black solid;
     padding: 1rem;
     margin: 0.3rem;
+    border-radius: 1rem;
 }
-
+.ContractDetails{
+    margin-bottom: 1rem;
+}
 .ConnectBtn{
     font-weight: bold;
     margin: 0.5rem;
@@ -37,12 +41,23 @@
     padding: 0.5rem;
     word-break: keep-all;
 }
+.ContractInfo{
+    display: flex;
+    flex-direction: column;
+    margin: 1.5rem;
+    width: 100%;
+}
+
 .ActionSpace{
+    background-color: white;
+    padding: 1rem;
+    border-radius: 1rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 90%;
     margin-bottom: 1rem;
+    margin-top: 0.5rem;
 }
 .AddBlock{
     width: 90%;
@@ -77,4 +92,11 @@ option{
     display: flex;
     flex-direction: row;
     justify-content: center;
+}
+input[type="text"]{
+    border-radius: 1rem;
+    padding: 0.3rem;
+    border: none;
+    width: 80%;
+    color: black;
 }

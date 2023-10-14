@@ -1,7 +1,6 @@
 .MainFrame{
     display: flex;
     flex-direction: column;
-    align-content: center;
     padding: 1rem;
     align-items: center;
 }
@@ -9,7 +8,19 @@
     text-align: center;
     flex: 1;
 }
+.TransactionInfo{
+    margin: 1.5rem;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+}
+.InfoDetails{
+    margin: 1rem;
+    font-weight: bold;
+    font-size: larger;
+}
 .Content{
+    font-weight: bold;
     display: flex;
     flex-direction: row;
     flex:4;
@@ -22,16 +33,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
 }
-
 .ConnectBtn{
+    padding: 1rem;
     margin:1rem;
     background-color: rgba(20,200,50,0.3);
     border-radius: 1rem;
     box-shadow: 0.1rem 0rem 0.1rem 0.1rem;
     border: none;
-    padding: 1rem;
     word-break: keep-all;
 }
 .Result{
@@ -39,17 +48,27 @@
     border: black solid;
     border-radius: 1rem;
     padding: 0.5rem;
+    margin: 1.5rem;
 }
 .Result-div{
+    font-weight: bold;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 .Center-text{
+    font-weight: bold;
     text-align: center;
     margin: 0.3rem;
 }
 h4{
     margin:0.2rem;
     word-break: break-all;
+}
+input{
+    padding: 0.7rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 1rem;
+    color: black;
 }
