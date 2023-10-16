@@ -7,6 +7,7 @@ import "../style/get_information.css";
 import {AppBar, Container, ThemeProvider, Toolbar} from "@mui/material";
 import Link from "next/link";
 import {createTheme} from "@mui/material/styles";
+import "../../global.d"
 
 class BlockInfo{
     constructor() {
@@ -95,7 +96,7 @@ export default function Get_information() {
             if (blockInfo) {
                 let tmp=new BlockInfo();
                 tmp.BlockHeight=Number(blockInfo.number);
-                tmp.BlockHash=blockInfo.hash;
+                tmp.BlockHash=blockInfo.hash!;
                 tmp.PreviousHash=blockInfo.parentHash;
                 setBlockByHashWeb3(tmp);
                 console.log('區塊資訊：', blockInfo);
@@ -111,7 +112,7 @@ export default function Get_information() {
         const web3 = new Web3(url);
         const transactionHash = transactionHashRef.current?.value.toString();
 
-        web3.eth.getTransaction(transactionHash)
+        web3.eth.getTransaction(transactionHash!)
             .then(transactionInfo => {
                 if (transactionInfo) {
                     console.log('交易資訊：', transactionInfo);
@@ -119,7 +120,7 @@ export default function Get_information() {
                     tmp.From=transactionInfo.from;
                     tmp.To=transactionInfo.to!;
                     tmp.Amount=formatEther(transactionInfo.value);
-                    tmp.Fee=formatEther(transactionInfo.gasPrice);
+                    tmp.Fee=formatEther(transactionInfo.gas);
                     tmp.BlockHeight=Number(transactionInfo.blockNumber);
                     tmp.Hash=transactionInfo.hash;
                     setTransactionWeb3(tmp);
@@ -147,7 +148,7 @@ export default function Get_information() {
             if (blockInfo) {
                 let tmp=new BlockInfo();
                 tmp.BlockHeight=blockInfo.number;
-                tmp.BlockHash=blockInfo.hash;
+                tmp.BlockHash=blockInfo.hash!;
                 tmp.PreviousHash=blockInfo.parentHash;
                 setBlockByHeightEthers(tmp);
                 console.log('區塊資訊：', blockInfo);
@@ -161,11 +162,11 @@ export default function Get_information() {
     const getBlockByHashEthers=()=>{
         const provider =urlRef.current?.value.toString()===""? new ethers.BrowserProvider(window.ethereum):new ethers.JsonRpcProvider(urlRef.current?.value.toString());
         const blockHash=hashRef.current?.value;
-        provider.getBlock(blockHash).then(blockInfo => {
+        provider.getBlock(blockHash!).then(blockInfo => {
             if (blockInfo) {
                 let tmp=new BlockInfo();
                 tmp.BlockHeight=blockInfo.number;
-                tmp.BlockHash=blockInfo.hash;
+                tmp.BlockHash=blockInfo.hash!;
                 tmp.PreviousHash=blockInfo.parentHash;
                 setBlockByHashEthers(tmp);
                 console.log('區塊資訊：', blockInfo);
@@ -179,15 +180,15 @@ export default function Get_information() {
     const getTransactionEthers=()=>{
         const provider =urlRef.current?.value.toString()===""? new ethers.BrowserProvider(window.ethereum):new ethers.JsonRpcProvider(urlRef.current?.value.toString());
         const transactionHash=transactionHashRef.current?.value.toString();
-        provider.getTransaction(transactionHash).then(transactionInfo => {
+        provider.getTransaction(transactionHash!).then(transactionInfo => {
             if (transactionInfo) {
                 console.log('交易資訊：', transactionInfo);
                 let tmp=new TransactionInfo();
                 tmp.From=transactionInfo.from;
-                tmp.To=transactionInfo.to;
+                tmp.To=transactionInfo.to!;
                 tmp.Amount=formatEther(transactionInfo.value);
                 tmp.Fee=formatEther(transactionInfo.gasPrice);
-                tmp.BlockHeight=transactionInfo.blockNumber;
+                tmp.BlockHeight=transactionInfo.blockNumber!;
                 tmp.Hash=transactionInfo.hash;
                 setTransactionEthers(tmp);
             } else {

@@ -6,6 +6,7 @@ import {ethers} from "ethers";
 import {AppBar, Container, ThemeProvider, Toolbar} from "@mui/material";
 import Link from "next/link";
 import {createTheme} from "@mui/material/styles";
+import "../../global.d"
 
 class ContractMethod{
     Result:string;
@@ -16,6 +17,16 @@ class ContractMethod{
     Payable:boolean;
     Amount:number;
 
+    constructor() {
+        this.Result="";
+        this.Type="";
+        this.Method="";
+        this.Parameters=[];
+        this.Index=0;
+        this.Payable=false;
+        this.Amount=0;
+    }
+
 }
 export default function Interact_contract() {
     const addressRef=useRef<HTMLInputElement|null>(null);
@@ -23,7 +34,7 @@ export default function Interact_contract() {
 
     const [workers,setWorkers]=useState([new ContractMethod()]);
 
-    const [abiContent, setAbiContent] = useState([{}]);
+    const [abiContent, setAbiContent] = useState([{"inputs":[],"stateMutability":"","name":"","type":""}]);
     const darkTheme = createTheme({
         palette: {
             mode: 'dark',
@@ -36,15 +47,20 @@ export default function Interact_contract() {
 
 
     useEffect(() => {
-        if (abiRef.current) {
-            abiRef.current!.addEventListener('change', handleFileChange);
+        let currentAbiRef = abiRef.current;
+
+        if (currentAbiRef) {
+            currentAbiRef.addEventListener('change', handleFileChange);
         }
+
         return () => {
-            if (abiRef.current) {
-                abiRef.current!.removeEventListener('change', handleFileChange);
+            if (currentAbiRef) {
+                currentAbiRef.removeEventListener('change', handleFileChange);
             }
         };
     }, []);
+
+
     const handleFileChange = async () => {
         const file = abiRef.current!.files![0];
         if (file) {
@@ -61,12 +77,12 @@ export default function Interact_contract() {
         tmp.push(new ContractMethod());
         setWorkers(tmp);
     }
-    const handleTypeChange=(index,event)=>{
+    const handleTypeChange=(index:number,event:any)=>{
         let tmp=[...workers];
         tmp[index].Type=event.target.value;
         setWorkers(tmp);
     }
-    const handleMethodChange=(index,event)=>{
+    const handleMethodChange=(index:number,event:any)=>{
         let tmp=[...workers];
         tmp[index].Method=event.target.value;
         abiContent.map((item,i)=>{
@@ -84,17 +100,17 @@ export default function Interact_contract() {
         })
         setWorkers(tmp);
     }
-    const parametersChange=(index,inputIndex,val)=>{
+    const parametersChange=(index:number,inputIndex:number,val:any)=>{
         let tmp=[...workers];
         tmp[index].Parameters[inputIndex]=val;
         setWorkers(tmp);
     }
-    const editAmount=(index,event)=>{
+    const editAmount=(index:number,event:any)=>{
         let tmp=[...workers];
         tmp[index].Amount=event.target.value;
         setWorkers(tmp);
     }
-    const ContractInteraction=async (index) => {
+    const ContractInteraction=async (index:number) => {
         if (typeof window.ethereum !== 'undefined') {
             const contractAddress = addressRef.current!.value;
             const contractAbi = abiContent;
@@ -114,7 +130,7 @@ export default function Interact_contract() {
                 tmp[index].Result=JSON.stringify(ans);
                 setWorkers(tmp);
             } else{
-                if (workers[index].Payable===true){
+                if (workers[index].Payable){
                     const basicFoundation = ethers.parseEther(workers[index].Amount.toString());
 
                     await contract[workers[index].Method](...workers[index].Parameters,{value:basicFoundation}).then((result)=>{
@@ -203,7 +219,7 @@ export default function Interact_contract() {
                                     </select>
                                 </h4>
                                 <h3>參數</h3>
-                                {abiContent[item.Index] && abiContent[item.Index]["inputs"].map((inputItem,inputIndex)=>{
+                                {abiContent[item.Index] && abiContent[item.Index]["inputs"].map((inputItem:any,inputIndex:number)=>{
                                     return (
                                         <h4 key={inputIndex}>{inputItem["name"]}:&nbsp;&nbsp;<input
                                             value={item.Parameters[inputIndex]}
@@ -212,7 +228,7 @@ export default function Interact_contract() {
                                     )
                                 })}
                                 <h3>金額</h3>
-                                {item.Payable===true && (
+                                {item.Payable && (
                                     <h4>
                                         總共&nbsp;&nbsp;<input onChange={(e)=>{editAmount(index,e)}} type={"number"}/>&nbsp;&nbsp;ETH
                                     </h4>

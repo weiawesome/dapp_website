@@ -7,11 +7,15 @@ import "../style/connect_wallet.css"
 import {AppBar, Container, ThemeProvider, Toolbar} from "@mui/material";
 import Link from "next/link";
 import {createTheme} from "@mui/material/styles";
+import "../../global.d"
+
+type web3ProviderType = Web3 | null;
+type ethersProviderType = ethers.BrowserProvider | null;
 export default function Connect_wallet() {
-    const [web3,setWeb3]=useState(null);
+    const [web3,setWeb3]=useState<web3ProviderType>(null);
     const [web3Address,setWeb3Address]=useState("");
     const [web3Amount,setWeb3Amount]=useState("");
-    const [provider,setProvider]=useState(null);
+    const [provider,setProvider]=useState<ethersProviderType>(null);
     const [ethersAddress,setEthersAddress]=useState("");
     const [ethersAmount,setEthersAmount]=useState("");
     const darkTheme = createTheme({
@@ -34,12 +38,12 @@ export default function Connect_wallet() {
         if (typeof window.ethereum !== 'undefined') {
             setWeb3Address("");
             setWeb3Amount("");
-            await setWeb3(new Web3(window.ethereum));
+            setWeb3(new Web3(window.ethereum));
             try {
                 const accounts=await window.ethereum.request({method: 'eth_requestAccounts'});
                 const account = accounts[0];
-                const balanceWei = await web3.eth.getBalance(account);
-                const balanceEther = web3.utils.fromWei(balanceWei, 'ether');
+                const balanceWei = await web3!.eth.getBalance(account);
+                const balanceEther = web3!.utils.fromWei(balanceWei, 'ether');
                 setWeb3Amount(balanceEther);
                 setWeb3Address(accounts);
                 console.log('已連接到 MetaMask');
@@ -57,9 +61,9 @@ export default function Connect_wallet() {
             setEthersAmount("");
             await window.ethereum.request({ method: 'eth_requestAccounts' });
             setProvider(new ethers.BrowserProvider(window.ethereum));
-            const signer = await provider.getSigner();
+            const signer = await provider!.getSigner();
             const addr= await signer.getAddress();
-            const balance = await provider.getBalance(addr);
+            const balance = await provider!.getBalance(addr);
             setEthersAmount(formatEther(balance));
             setEthersAddress(addr);
 

@@ -7,6 +7,7 @@ import "../style/build_transaction.css"
 import {AppBar, Container, ThemeProvider, Toolbar} from "@mui/material";
 import Link from "next/link";
 import {createTheme} from "@mui/material/styles";
+import "../../global.d"
 class Receipt{
     constructor() {
         this.TransactionHash="";
@@ -35,11 +36,12 @@ export default function Build_transaction() {
     });
     const BuildTransactionEthers=async () => {
         try {
-            if (typeof window.ethereum!=="undefined" || !window.ethereum.isConnected()) {
-                throw new Error('請安裝 MetaMask 並連接到一個 Ethereum 網路');
+            if (typeof window.ethereum!=="undefined") {
+                alert('請安裝 MetaMask 並連接到一個 Ethereum 網路');
+                return
             }
 
-            let provider = new ethers.BrowserProvider(window["ethereum"]);
+            let provider = new ethers.BrowserProvider(window.ethereum!);
 
             const signer =await provider.getSigner();
 
@@ -69,8 +71,9 @@ export default function Build_transaction() {
     }
     const BuildTransactionWeb3=async () => {
         try {
-            if (typeof window.ethereum!=="undefined" || !window.ethereum.isConnected()) {
-                throw new Error('請安裝 MetaMask 並連接到一個 Ethereum 網路');
+            if (typeof window.ethereum!=="undefined") {
+                alert('請安裝 MetaMask 並連接到一個 Ethereum 網路');
+                return
             }
             const provider = window.ethereum;
             const web3 = new Web3(provider);
@@ -78,7 +81,7 @@ export default function Build_transaction() {
 
             const amountToSend = web3.utils.toWei(valueRef.current!.value, 'ether');
             console.log(amountToSend);
-            const accounts = await window.ethereum.request({method: 'eth_requestAccounts'});
+            const accounts = await window.ethereum!.request({method: 'eth_requestAccounts'});
             const account = accounts[0];
             const transactionObject = {
                 from: account.toString(),
@@ -101,6 +104,7 @@ export default function Build_transaction() {
                     setR(tmp);
                 })
                 .on('error', error => {
+                    console.log(error)
                 })
         } catch (error) {
             console.log(error);
