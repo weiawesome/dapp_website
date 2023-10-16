@@ -2,16 +2,16 @@
 import "./globals.css"
 import "../style/index.css"
 import Link from "next/link";
-import {
-    AppBar,
-    Button,
-    Card, CardActions, CardContent,
-    Container,
-    ThemeProvider,
-    Toolbar,
-    Typography
-} from "@mui/material";
-import { createTheme } from '@mui/material/styles';
+
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { createTheme,ThemeProvider } from '@mui/material/styles';
 
 import {useState} from "react";
 import data from "../assets/documents.json"

@@ -3,9 +3,12 @@ import {useEffect, useRef, useState} from "react";
 import "../app/globals.css"
 import "../style/interact_contract.css"
 import {ethers} from "ethers";
-import {AppBar, Container, ThemeProvider, Toolbar} from "@mui/material";
+import AppBar from '@mui/material/AppBar';
+import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
+import { createTheme,ThemeProvider } from '@mui/material/styles';
+
 import Link from "next/link";
-import {createTheme} from "@mui/material/styles";
 import "../../global.d"
 
 class ContractMethod{

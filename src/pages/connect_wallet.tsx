@@ -4,9 +4,12 @@ import Web3 from 'web3';
 import {useEffect, useState} from "react";
 import "../app/globals.css"
 import "../style/connect_wallet.css"
-import {AppBar, Container, ThemeProvider, Toolbar} from "@mui/material";
+import AppBar from '@mui/material/AppBar';
+import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
+import { createTheme,ThemeProvider } from '@mui/material/styles';
+
 import Link from "next/link";
-import {createTheme} from "@mui/material/styles";
 import "../../global.d"
 
 type web3ProviderType = Web3 | null;
