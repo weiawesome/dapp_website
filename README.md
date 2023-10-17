@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# DApp (Decentralized Application)
+## What is DApp (Decentralized Application)
+## What is the DApp (Decentralized Application) feature
+1. My introduction to the blockchain
+2. Connect with MetaMask
+3. Get th blockchain information
+4. Build transactions with MetaMask
+5. Interact with contracts
+## How to install
+```shell
+# Ensure have installed git
+git clone https://github.com/weiawesome/dapp_website.git
 ```
+## How to start
+### Start Locally
+```shell
+# Ensure have installed npm
+npm install
+npm run build
+npm start
+```
+### Start with Docker
+```shell
+# Ensure have installed docker
+docker build -t image-name .
+docker run -d --name container-name -p 3000:3000 image-name
+```
+Then can see the website in http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# WebSite main function and its UI
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 1. Index
+### The Introduction to blockchain
+![img.png](asset/index.png)
+### The introduction article and its filter
+![img_1.png](asset/index_article.png)
 
-## Learn More
+### The author's contact method
+![img_2.png](asset/index_contact.png)
 
-To learn more about Next.js, take a look at the following resources:
+## 2. Connect Wallet
+### Connect MetaMask to get account information
+![img.png](asset/wallet_connect.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 3. Get BlockChain information
+### Specific blockchain network or by MetaMask
+![img_1.png](asset/blockchian_info.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Block information
+![img_2.png](asset/blcokchain_info_block.png)
+* Get the latest block height
+* Search block by block height
+* Search block by block hash
 
-## Deploy on Vercel
+### Transaction information
+![img_3.png](asset/blockchain_info_transaction.png)
+* Search transaction by transaction hash
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 4. Build Transaction
+### Connect MetaMask and build transaction
+![img_4.png](asset/transaction_build.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## 5. Contract Interact
+![img_6.png](asset/contract_interact.png)
+* Provide contract address and ABI file to interact
+
+
