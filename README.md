@@ -1,11 +1,14 @@
 # DApp (Decentralized Application)
-## What is DApp (Decentralized Application)
+## What is DApp (Decentralized Application) ?
+A DApp (Decentralized Application) is a software application that operates on a decentralized blockchain network, offering transparency, security, and trust through smart contracts.
+
 ## What is the DApp (Decentralized Application) feature
 1. My introduction to the blockchain
 2. Connect with MetaMask
 3. Get th blockchain information
 4. Build transactions with MetaMask
 5. Interact with contracts
+
 ## How to install
 ```shell
 # Ensure have installed git
